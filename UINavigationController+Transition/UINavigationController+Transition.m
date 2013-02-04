@@ -8,8 +8,23 @@
                 animations:(void (^)(UIView *, UIView *))animations
                 completion:(void (^)(UIView *, UIView *))completion
 {
-    UIViewController *fromViewController = self.visibleViewController;
+    [self pushViewController:toViewController
+                    duration:duration
+                     options:0
+                  prelayouts:preparation
+                  animations:animations
+                  completion:completion];
+}
 
+- (void)pushViewController:(UIViewController *)toViewController
+                  duration:(NSTimeInterval)duration
+                   options:(UIViewAnimationOptions)options
+                prelayouts:(void (^)(UIView *, UIView *))preparation
+                animations:(void (^)(UIView *, UIView *))animations
+                completion:(void (^)(UIView *, UIView *))completion
+{
+    UIViewController *fromViewController = self.visibleViewController;
+    
     [self pushViewController:toViewController animated:NO];
     [self.view layoutSubviews];
     
@@ -20,7 +35,10 @@
     if (preparation) {
         preparation(fromViewController.view, toViewController.view);
     }
+    
     [UIView animateWithDuration:duration
+                          delay:0.0
+                        options:options
                      animations:^{
                          if (animations) {
                              animations(fromViewController.view, toViewController.view);
@@ -35,6 +53,20 @@
 }
 
 - (UIViewController *)popViewControllerWithDuration:(NSTimeInterval)duration
+                                         prelayouts:(void (^)(UIView *, UIView *))preparation
+                                         animations:(void (^)(UIView *, UIView *))animations
+                                         completion:(void (^)(UIView *, UIView *))completion
+{
+    UIViewController *fromViewController = [self popViewControllerWithDuration:duration
+                                                                       options:0
+                                                                    prelayouts:preparation
+                                                                    animations:animations
+                                                                    completion:completion];
+    return fromViewController;
+}
+
+- (UIViewController *)popViewControllerWithDuration:(NSTimeInterval)duration
+                                            options:(UIViewAnimationOptions)options
                                          prelayouts:(void (^)(UIView *, UIView *))preparation
                                          animations:(void (^)(UIView *, UIView *))animations
                                          completion:(void (^)(UIView *, UIView *))completion
@@ -56,7 +88,10 @@
     if (preparation) {
         preparation(fromViewController.view, toViewController.view);
     }
+    
     [UIView animateWithDuration:duration
+                          delay:0.0
+                        options:options
                      animations:^{
                          if (animations) {
                              animations(fromViewController.view, toViewController.view);
