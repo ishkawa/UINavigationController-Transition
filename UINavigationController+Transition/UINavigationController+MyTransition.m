@@ -24,14 +24,14 @@
         
         NSLog(@"向右滑动");
         //执行程序
-        [self popViewControllerWithDuration:.7f
+        [self popViewControllerWithDuration:.6f
                                  prelayouts:^(UIView *fromView, UIView *toView) {
-                                     toView.transform = CGAffineTransformMakeScale(.85, .85);
+                                     toView.transform = CGAffineTransformMakeScale(.9, .9);
                                  }
                                  animations:^(UIView *fromView, UIView *toView) {
                                      toView.transform = CGAffineTransformMakeScale(1, 1);
-                                     fromView.frame = CGRectMake(-fromView.frame.size.height,
-                                                                 0,
+                                     fromView.frame = CGRectMake(0,
+                                                                 fromView.frame.size.height * 2,
                                                                  fromView.frame.size.width,
                                                                  fromView.frame.size.height);
                                  }
@@ -49,7 +49,7 @@
     [recognizer release];
     
     [self pushViewController:viewController
-                    duration:2.5f
+                    duration:.5f
                   prelayouts:^(UIView *fromView, UIView *toView) {
                       toView.frame = CGRectMake(0,
                                                 toView.frame.size.height * 2,
@@ -57,10 +57,11 @@
                                                 toView.frame.size.height);
                   }
                   animations:^(UIView *fromView, UIView *toView) {
-                      fromView.transform = CGAffineTransformMakeScale(.9, .9);
                       toView.frame = CGRectMake(0, 0,
                                                 toView.frame.size.width,
                                                 toView.frame.size.height);
+                      
+                      fromView.transform = CGAffineTransformMakeScale(.9, .9);
                   }
                   completion:^(UIView *fromView, UIView *toView) {
                       fromView.transform = CGAffineTransformMakeScale(1, 1);
